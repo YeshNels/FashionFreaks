@@ -25,7 +25,7 @@ export default function SimpleCard() {
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Sign in to your account</Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            to enjoy all of our cool <Link color={"blue.400"}>Accesories</Link>
+            to enjoy all of our cool Accessories
           </Text>
         </Stack>
         <Box
