@@ -2,7 +2,6 @@ import {
   Flex,
   Box,
   Image,
-  Badge,
   useColorModeValue,
   Icon,
   chakra,
