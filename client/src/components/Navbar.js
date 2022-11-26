@@ -1,17 +1,13 @@
+import React from "react";
 import { ReactNode } from "react";
-import { FaShoppingCart } from "react-icons/fa";
+import { Cart } from "./Cart";
 import {
   Box,
   Flex,
   HStack,
   Link,
-  Icon,
   IconButton,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   useDisclosure,
   useColorModeValue,
   Stack,
@@ -68,21 +64,7 @@ export default function Navbar() {
               direction={"row"}
               spacing={6}
             >
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={"full"}
-                  variant={"link"}
-                  cursor={"pointer"}
-                  minW={0}
-                >
-                  <Icon as={FaShoppingCart} w={6} h={8} />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem>Checkout ...</MenuItem>
-                </MenuList>
-              </Menu>
-
+              <Cart />
               <Button
                 as={"a"}
                 fontSize={"sm"}
