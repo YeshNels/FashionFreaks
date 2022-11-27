@@ -7,19 +7,19 @@ import ProductAddToCart from "./components/Card";
 import { StoreProvider } from './utils/GlobalState';
 //import SignIn from "./components/signIn";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+// import {
+//   ApolloClient,
+//   InMemoryCache,
+//   ApolloProvider,
+//   createHttpLink,
+// } from '@apollo/client';
+//import { setContext } from '@apollo/client/link/context';
 import { Card } from "@chakra-ui/react";
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-import CheckoutForm from "./CheckoutForm";
+import CheckoutForm from "./pages/CheckoutForm";
 import "./styles/App.css";
 
 // function App() {
@@ -32,24 +32,24 @@ import "./styles/App.css";
 //   );
 // }
 
-const httpLink = createHttpLink({
-  uri: '/graphql',
-});
+// const httpLink = createHttpLink({
+//   uri: '/graphql',
+// });
 
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
-});
+// const authLink = setContext((_, { headers }) => {
+//   const token = localStorage.getItem('id_token');
+//   return {
+//     headers: {
+//       ...headers,
+//       authorization: token ? `Bearer ${token}` : '',
+//     },
+//   };
+// });
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
+// const client = new ApolloClient({
+//   link: authLink.concat(httpLink),
+//   cache: new InMemoryCache(),
+// });
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -64,7 +64,7 @@ function App() {
     fetch("/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+      body: JSON.stringify({ items: [{ id: "sunglasses" }] }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
@@ -79,7 +79,8 @@ function App() {
   };
 
   return (
-    <ApolloProvider client={client}>
+    //<ApolloProvider client={client}>
+    <div>
       <Router>
         <div>
           <StoreProvider>
@@ -125,10 +126,11 @@ function App() {
         </Elements>
       )}
     </div>
-    </ApolloProvider>
+  </div>
 
   );
-}
+      }
+
 
 
 export default App;
