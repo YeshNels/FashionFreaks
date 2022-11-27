@@ -1,6 +1,7 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
+const stripe = require("stripe")('sk_test_51M8WfvJYmNmQs93rzBG98P7aSvQygNQer2e632gfl5NFhnhj1EwVuwxnj1aWk8FT7VHREWHyH3NFLpWoCiXlMgB400OIw7mTMu');
 
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
@@ -12,6 +13,7 @@ const server = new ApolloServer({
   resolvers,
 });
 
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
