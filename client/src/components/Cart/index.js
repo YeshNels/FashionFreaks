@@ -81,11 +81,11 @@ const Cart = (props) => {
         <DrawerOverlay />
 
         <DrawerContent>
+          <DrawerCloseButton />
+
+          <DrawerHeader>My Shopping Cart</DrawerHeader>
           {state.cart.length ? (
             <div>
-              <DrawerCloseButton />
-              <DrawerHeader>My Shopping Cart</DrawerHeader>
-
               <DrawerBody>
                 {state.cart.map((item) => (
                   <CartItem key={item._id} item={item} />
