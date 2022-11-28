@@ -1,15 +1,19 @@
+import React from "react";
 import {
   Flex,
   SimpleGrid,
   Box,
   Image,
   useColorModeValue,
-  Icon,
   chakra,
   Tooltip,
+  Button,
 } from "@chakra-ui/react";
 import { FiShoppingCart } from "react-icons/fi";
-import React, { useState } from "react";
+import { useStoreContext } from "../../utils/GlobalState";
+import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
+import { idbPromise } from "../../utils/helpers";
+import { useState } from "react";
 const innerBoxStyles = {
   display: "flex",
   position: "absolute",
@@ -26,15 +30,35 @@ const innerBoxStyles = {
   textShadow: "1px 2px 1px  white",
 };
 
-const data = {
-  imageURL:
-    "https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=4600&q=80",
-  name: "Sunglasses Classic",
-  price: 4.5,
-};
-
-function ProductAddToCart() {
+function ProductItem(item) {
   const [isShown, setIsShown] = useState(false);
+
+  const [state, dispatch] = useStoreContext();
+
+  const { image, name, _id, price } = item;
+
+  const { cart } = state;
+
+  const addToCart = () => {
+    const itemInCart = cart.find((cartItem) => cartItem._id === _id);
+    if (itemInCart) {
+      dispatch({
+        type: UPDATE_CART_QUANTITY,
+        _id: _id,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+      });
+      idbPromise("cart", "put", {
+        ...itemInCart,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+      });
+    } else {
+      dispatch({
+        type: ADD_TO_CART,
+        product: { ...item, purchaseQuantity: 1 },
+      });
+      idbPromise("cart", "put", { ...item, purchaseQuantity: 1 });
+    }
+  };
 
   return (
     <Flex p={10} w="full" alignItems="center" justifyContent="space-between">
@@ -51,8 +75,8 @@ function ProductAddToCart() {
         >
           <Box position="relative">
             <Image
-              src={data.imageURL}
-              alt={`Picture of ${data.name}`}
+              src={`/images/${image}`}
+              alt={`Picture of ${name}`}
               roundedTop="lg"
             />
             {isShown && (
@@ -69,12 +93,11 @@ function ProductAddToCart() {
                 fontWeight="semibold"
                 as="h4"
                 lineHeight="tight"
-                cursor={"pointer"}
                 isTruncated
                 onMouseEnter={() => setIsShown(true)}
                 onMouseLeave={() => setIsShown(false)}
               >
-                {data.name}
+                {name}
               </Box>
               <Tooltip
                 label="Add to cart"
@@ -84,7 +107,13 @@ function ProductAddToCart() {
                 fontSize={"1em"}
               >
                 <chakra.a href={"#"} display={"flex"}>
-                  <Icon as={FiShoppingCart} h={7} w={7} alignSelf={"center"} />
+                  <Button
+                    as={FiShoppingCart}
+                    h={7}
+                    w={7}
+                    alignSelf={"center"}
+                    onClick={addToCart}
+                  />
                 </chakra.a>
               </Tooltip>
             </Flex>
@@ -94,7 +123,7 @@ function ProductAddToCart() {
                 <Box as="span" color={"gray.600"} fontSize="lg">
                   $
                 </Box>
-                {data.price.toFixed(2)}
+                {price.toFixed(2)}
               </Box>
             </Flex>
           </Box>
@@ -103,5 +132,4 @@ function ProductAddToCart() {
     </Flex>
   );
 }
-
-export default ProductAddToCart;
+export default ProductItem;
