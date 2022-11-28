@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 //import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 //import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import Navbar from "./components/Navbar";
-import Header from "./components/Header";
+import Home from "./pages/Home";
 import ProductAddToCart from "./components/Card";
-import { StoreProvider } from './utils/GlobalState';
+import { StoreProvider } from "./utils/GlobalState";
 //import SignIn from "./components/signIn";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import {
 //   ApolloClient,
 //   InMemoryCache,
@@ -20,17 +19,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
 import CheckoutForm from "./pages/CheckoutForm";
-import "./styles/App.css";
-
-// function App() {
-//   return (
-//     <div>
-//       <Navbar />
-//       <Header />
-//       <ProductAddToCart />
-//     </div>
-//   );
-// }
+// import "./styles/App.css";
 
 // const httpLink = createHttpLink({
 //   uri: '/graphql',
@@ -54,7 +43,9 @@ import "./styles/App.css";
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
-const stripePromise = loadStripe("pk_test_51M8WfvJYmNmQs93r91x3PTxSy2FCo9jj7jboQiEhCQT5Jz0AdQEhTpmMvG2uue1aMYDbbUVpGEjbgm3JlrpAYSJS00OUICV5Jj");
+const stripePromise = loadStripe(
+  "pk_test_51M8WfvJYmNmQs93r91x3PTxSy2FCo9jj7jboQiEhCQT5Jz0AdQEhTpmMvG2uue1aMYDbbUVpGEjbgm3JlrpAYSJS00OUICV5Jj"
+);
 
 function App() {
   const [clientSecret, setClientSecret] = useState("");
@@ -71,7 +62,7 @@ function App() {
   }, []);
 
   const appearance = {
-    theme: 'stripe',
+    theme: "stripe",
   };
   const options = {
     clientSecret,
@@ -84,32 +75,16 @@ function App() {
       <Router>
         <div>
           <StoreProvider>
-            <Navbar />
             <Routes>
-              <Route 
-                path="/" 
-                element={<Header />} 
-              />
-              <Route 
-                path="/login" 
-                element={<signIn />} 
-              />
-              <Route 
-                path="/signup" 
-                element={<signUp />} 
-              />
-              <Route 
-                path="/success" 
-                element={<ProductAddToCart />} 
-              />
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<signIn />} />
+              <Route path="/signup" element={<signUp />} />
+              <Route path="/success" element={<ProductAddToCart />} />
               {/* <Route 
                 path="/orderHistory" 
                 element={<OrderHistory />} 
               /> */}
-              <Route 
-                path="/products/:id" 
-                element={<Card />} 
-              />
+              <Route path="/products/:id" element={<Card />} />
               {/* <Route 
                 path="*" 
                 element={<NoMatch />} 
@@ -120,17 +95,14 @@ function App() {
       </Router>
 
       <div className="App">
-      {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
-      )}
+        {clientSecret && (
+          <Elements options={options} stripe={stripePromise}>
+            <CheckoutForm />
+          </Elements>
+        )}
+      </div>
     </div>
-  </div>
-
   );
-      }
-
-
+}
 
 export default App;
