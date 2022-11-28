@@ -1,5 +1,7 @@
 // import Auth from "../../utils/auth";
 import { Cart } from "../Cart";
+import Auth from "../../utils/auth";
+
 import {
   Box,
   Flex,
@@ -26,6 +28,77 @@ import {
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
+
+  function showHideNav() {
+    if (Auth.loggedIn()) {
+      return (
+        <Stack
+          flex={{ base: 1, md: 0 }}
+          justify={"flex-end"}
+          direction={"row"}
+          spacing={6}
+        >
+          <Cart />
+          <Button
+            as={"a"}
+            fontSize={"sm"}
+            fontWeight={400}
+            variant={"link"}
+            href={"#"}
+          >
+            Order History
+          </Button>
+          <Button
+            display={{ base: "none", md: "inline-flex" }}
+            fontSize={"sm"}
+            fontWeight={600}
+            color={"white"}
+            bg={"orange.400"}
+            href={"#"}
+            _hover={{
+              bg: "orange.300",
+            }}
+            onClick={() => Auth.logout()}
+          >
+            Sign out
+          </Button>
+        </Stack>
+      );
+    } else {
+      return (
+        <Stack
+          flex={{ base: 1, md: 0 }}
+          justify={"flex-end"}
+          direction={"row"}
+          spacing={6}
+        >
+          <Cart />
+          <Button
+            as={"a"}
+            fontSize={"sm"}
+            fontWeight={400}
+            variant={"link"}
+            href={"/SignIn"}
+          >
+            Sign In
+          </Button>
+          <Button
+            display={{ base: "none", md: "inline-flex" }}
+            fontSize={"sm"}
+            fontWeight={600}
+            color={"white"}
+            bg={"orange.400"}
+            href={"/SignUp"}
+            _hover={{
+              bg: "orange.300",
+            }}
+          >
+            Sign Up
+          </Button>
+        </Stack>
+      );
+    }
+  }
 
   return (
     <Box>
@@ -69,37 +142,7 @@ export default function WithSubnavigation() {
             <DesktopNav />
           </Flex>
         </Flex>
-
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          <Cart />
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            href={"#"}
-          >
-            Order History
-          </Button>
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"orange.400"}
-            href={"#"}
-            _hover={{
-              bg: "orange.300",
-            }}
-          >
-            Sign Up
-          </Button>
-        </Stack>
+        {showHideNav()}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>

@@ -14,6 +14,7 @@ import {
   DrawerCloseButton,
   useDisclosure,
   Button,
+  Badge,
 } from "@chakra-ui/react";
 import CartItem from "../CartItem";
 
@@ -35,7 +36,10 @@ const Cart = (props) => {
           colorScheme="teal"
           onClick={onOpen}
         >
-          <Icon as={FaShoppingCart} w={6} h={8} />
+          <Icon as={FaShoppingCart} w={6} h={8} position="relative" />
+          <Badge ml="-4" mt="-50" display="none">
+            1
+          </Badge>
         </MenuButton>
       </Menu>
 
