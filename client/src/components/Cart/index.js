@@ -15,12 +15,39 @@ import {
   useDisclosure,
   Button,
   Badge,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import CartItem from "../CartItem";
+import { useEffect } from "react";
+import { idbPromise } from "../../utils/helpers";
+import { useStoreContext } from "../../utils/GlobalState";
+import { ADD_MULTIPLE_TO_CART } from "../../utils/actions";
 
 const Cart = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+
+  const [state, dispatch] = useStoreContext();
+
+  useEffect(() => {
+    async function getCart() {
+      const cart = await idbPromise("cart", "get");
+      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+    }
+
+    if (!state.cart.length) {
+      getCart();
+    }
+  }, [state.cart.length, dispatch]);
+
+  function calculateTotal() {
+    let sum = 0;
+    state.cart.forEach((item) => {
+      sum += item.price * item.purchaseQuantity;
+    });
+    return sum.toFixed(2);
+  }
 
   return (
     <>
@@ -52,23 +79,35 @@ const Cart = (props) => {
         size={"lg"}
       >
         <DrawerOverlay />
+
         <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>My Cart</DrawerHeader>
+          {state.cart.length ? (
+            <div>
+              <DrawerCloseButton />
+              <DrawerHeader>My Shopping Cart</DrawerHeader>
 
-          <DrawerBody>
-            <CartItem />
-          </DrawerBody>
+              <DrawerBody>
+                {state.cart.map((item) => (
+                  <CartItem key={item._id} item={item} />
+                ))}
+              </DrawerBody>
 
-          <DrawerFooter>
-            <Heading size="sm" textAlign="left" px="10">
-              Subtotal 4 $
-            </Heading>
+              <DrawerFooter>
+                <Heading size="sm" textAlign="left" px="10">
+                  ${calculateTotal()}
+                </Heading>
 
-            <Button alignSelf="left" colorScheme="blue">
-              Check Out
-            </Button>
-          </DrawerFooter>
+                <Button alignSelf="left" colorScheme="blue">
+                  Check Out
+                </Button>
+              </DrawerFooter>
+            </div>
+          ) : (
+            <Alert status="warning">
+              <AlertIcon />
+              You haven't added anything to your cart yet!
+            </Alert>
+          )}
         </DrawerContent>
       </Drawer>
     </>
