@@ -8,8 +8,10 @@ import {
   chakra,
   Tooltip,
 } from "@chakra-ui/react";
+import { useQuery } from "@apollo/client";
+import { QUERY_ALL_PRODUCTS } from "../utils/queries";
 import { FiShoppingCart } from "react-icons/fi";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 const innerBoxStyles = {
   display: "flex",
   position: "absolute",
@@ -26,27 +28,49 @@ const innerBoxStyles = {
   textShadow: "1px 2px 1px  white",
 };
 
-/*const data = {
+const data = {
   imageURL:
     "https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=4600&q=80",
   name: "Sunglasses Classic",
   price: 4.5,
-};*/
-
-const data = {
-  products: [
-    {
-      "name": "Ray-Ban Clubmaster Classic Sunglasses",
-      "description": "Black frame with green lenses",
-      "image": "/public/images/ray-ban-clubmaster.jpg",
-      "price": 163,
-      "quantity": "",
-      "category": "Sunglasses"
-    },
-  ],
 };
 
+// const data = {
+//   products: [
+//     {
+//       "name": "Ray-Ban Clubmaster Classic Sunglasses",
+//       "description": "Black frame with green lenses",
+//       "image": "/public/images/ray-ban-clubmaster.jpg",
+//       "price": 163,
+//       "quantity": "",
+//       "category": "Sunglasses"
+//     },
+//   ],
+// };
+
 function ProductAddToCart() {
+  //While this query works in isolation on the back-end, it is not currently working in combination with the front-end.
+  //const {loading, data} = useQuery(QUERY_ALL_PRODUCTS);
+  console.log(data);
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log(data);
+  //     // dispatch({
+  //     //   type: UPDATE_PRODUCTS,
+  //     //   //products: data.products,
+  //     // });
+  //     // data.products.forEach((product) => {
+  //     //   idbPromise('products', 'put', product);
+  //     // });
+  //   } //else if (!loading) {
+  //     // idbPromise('products', 'get').then((products) => {
+  //     //   dispatch({
+  //     //     type: UPDATE_PRODUCTS,
+  //     //     products: products,
+  //     //   });
+  //     // });
+  //   //}
+  // }, [data]);
   const [isShown, setIsShown] = useState(false);
 
   return (
@@ -73,38 +97,38 @@ function ProductAddToCart() {
                 New Details Lorem ipsum dolor sit amet, consetetur sadipscing
                 elitr, sed diam nonumy eirmod tempor invidunt ut labore
               </Box>
-            )}
+             )}
           </Box>
           <Box p="6">
             <Flex mt="1" justifyContent="space-between" alignContent="center">
-              <Box
-                fontSize="l"
-                fontWeight="semibold"
-                as="h4"
-                lineHeight="tight"
-                cursor={"pointer"}
-                isTruncated
-                onMouseEnter={() => setIsShown(true)}
-                onMouseLeave={() => setIsShown(false)}
-              >
-                {data.name}
-              </Box>
-              <Tooltip
-                label="Add to cart"
-                bg="white"
-                placement={"top"}
-                color={"gray.800"}
-                fontSize={"1em"}
-              >
-                <chakra.a href={"#"} display={"flex"}>
-                  <Icon as={FiShoppingCart} h={7} w={7} alignSelf={"center"} />
-                </chakra.a>
+               <Box
+                 fontSize="l"
+                 fontWeight="semibold"
+                 as="h4"
+                 lineHeight="tight"
+                 cursor={"pointer"}
+                 isTruncated
+                 onMouseEnter={() => setIsShown(true)}
+                 onMouseLeave={() => setIsShown(false)}
+               >
+                 {data.name}
+               </Box>
+               <Tooltip
+                 label="Add to cart"
+                 bg="white"
+                 placement={"top"}
+                 color={"gray.800"}
+                 fontSize={"1em"}
+               >
+                 <chakra.a href={`/api/cart/:id`} display={"flex"}>
+                   <Icon as={FiShoppingCart} h={7} w={7} alignSelf={"center"} />
+                 </chakra.a>
               </Tooltip>
             </Flex>
 
-            <Flex justifyContent="space-between" alignContent="center">
-              <Box fontSize="l" color={useColorModeValue("gray.800", "white")}>
-                <Box as="span" color={"gray.600"} fontSize="lg">
+             <Flex justifyContent="space-between" alignContent="center">
+               <Box fontSize="l" color={useColorModeValue("gray.800", "white")}>
+                 <Box as="span" color={"gray.600"} fontSize="lg">
                   $
                 </Box>
                 {data.price.toFixed(2)}

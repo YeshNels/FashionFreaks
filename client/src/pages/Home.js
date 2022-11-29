@@ -1,13 +1,14 @@
 import React from "react";
 import Header from "../components/Header";
-import Card from "../components/Card";
+import ProductList from "../components/Test/Please";
 import Footer from "../components/Footer";
-
+//import ProductAll from "../components/ProductAll"
 const Home = () => {
   return (
     <div className="container">
       <Header />
-      <Card />
+      <ProductList />
+      {/* <ProductAll /> */}
       <Footer />
     </div>
   );

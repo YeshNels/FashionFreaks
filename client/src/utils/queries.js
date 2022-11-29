@@ -9,6 +9,19 @@ export const QUERY_CATEGORIES = gql`
   }
 `;
 
+export const QUERY_ALL_PRODUCTS = gql`
+query getallproducts {
+  _id
+  category {
+    _id
+    name
+  }
+  description
+  image
+  name
+  price
+  quantity
+}`
 export const QUERY_PRODUCTS = gql`
   query getProducts($category: ID) {
     products(category: $category) {

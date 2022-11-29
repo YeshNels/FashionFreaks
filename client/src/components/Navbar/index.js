@@ -78,7 +78,7 @@ export default function Navbar() {
             fontSize={"sm"}
             fontWeight={400}
             variant={"link"}
-            href={"/SignIn"}
+            href={"/login"}
           >
             Sign In
           </Button>
@@ -317,7 +317,7 @@ interface NavItem {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Home",
-    href: "#",
+    href: "https://localhost:3000/#",
   },
   {
     label: "Shop",

@@ -30,7 +30,7 @@ const innerBoxStyles = {
   textShadow: "1px 2px 1px  white",
 };
 
-function ProductItem(item) {
+function ProductCard(item) {
   const [isShown, setIsShown] = useState(false);
 
   const [state, dispatch] = useStoreContext();
@@ -132,4 +132,4 @@ function ProductItem(item) {
     </Flex>
   );
 }
-export default ProductItem;
+export default ProductCard;
