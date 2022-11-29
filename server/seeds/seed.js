@@ -14,4 +14,5 @@ db.once('open', async () => {
 
     console.log('Category seeded!');
     console.log('Product seeded!');
+    process.exit(0);
 });
