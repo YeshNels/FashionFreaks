@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 //import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 //import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+// import OrderHistory from "./pages/OrderHistory";
 import ProductAddToCart from "./components/Card";
 import { StoreProvider } from "./utils/GlobalState";
 //import SignIn from "./components/signIn";
@@ -75,15 +77,13 @@ function App() {
       <Router>
         <div>
           <StoreProvider>
+            <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<signIn />} />
               <Route path="/signup" element={<signUp />} />
               <Route path="/success" element={<ProductAddToCart />} />
-              {/* <Route 
-                path="/orderHistory" 
-                element={<OrderHistory />} 
-              /> */}
+              {/* <Route path="/orderHistory" element={<OrderHistory />} /> */}
               <Route path="/products/:id" element={<Card />} />
               {/* <Route 
                 path="*" 
