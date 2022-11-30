@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-// import { useMutation } from "@apollo/client";
-// import Auth from "../utils/auth";
-// import { ADD_USER } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
+import Auth from "../utils/auth";
+import { ADD_USER } from "../utils/mutations";
 import {
   Flex,
   Box,
@@ -22,33 +22,38 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 export default function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
-  // const [formState, setFormState] = useState({ email: "", password: "" });
-  //   const [addUser] = useMutation(ADD_USER);
+  const [formState, setFormState] = useState({ email: "", password: "" });
+  const [addUser] = useMutation(ADD_USER);
 
-  //   const handleSubmit = async (event) => {
-  //     event.preventDefault();
-  //     const mutationResponse = await addUser({
-  //       variables: {
-  //         email: formState.email,
-  //         password: formState.password,
-  //         firstName: formState.firstName,
-  //         lastName: formState.lastName,
-  //       },
-  //     });
-  //     const token = mutationResponse.data.addUser.token;
-  //     Auth.login(token);
-  //   };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const mutationResponse = await addUser({
+      variables: {
+        email: formState.email,
+        password: formState.password,
+        firstName: formState.firstName,
+        lastName: formState.lastName,
+      },
+    });
+    const token = mutationResponse.data.addUser.token;
+    Auth.login(token);
+  };
 
-  //   const handleChange = (event) => {
-  //     const { name, value } = event.target;
-  //     setFormState({
-  //       ...formState,
-  //       [name]: value,
-  //     });
-  //   };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
 
   return (
-    <Flex minH={"100vh"} align={"center"} justify={"center"}>
+    <Flex
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
@@ -69,13 +74,13 @@ export default function SignUp(props) {
               <Box>
                 <FormControl id="firstName" isRequired>
                   <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
+                  <Input type="text" onChange={handleChange} />
                 </FormControl>
               </Box>
               <Box>
                 <FormControl id="lastName">
                   <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
+                  <Input type="text" onChange={handleChange} />
                 </FormControl>
               </Box>
             </HStack>
@@ -85,7 +90,7 @@ export default function SignUp(props) {
                 type="email"
                 id="email"
                 name="email"
-                // onChange={handleChange}
+                onChange={handleChange}
               />
             </FormControl>
             <FormControl id="password" isRequired>
@@ -95,7 +100,7 @@ export default function SignUp(props) {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 />
                 <InputRightElement h={"full"}>
                   <Button
@@ -111,7 +116,7 @@ export default function SignUp(props) {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
-                // onClick={handleSubmit}
+                onClick={handleSubmit}
                 loadingText="Submitting"
                 type="submit"
                 size="lg"

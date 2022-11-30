@@ -41,8 +41,7 @@ function OrderHistory() {
         <>
           <SimpleGrid p={5} columns={1} row={1}>
             <Heading size="md">
-              {" "}
-              Order History for {user.firstName} {user.lastName}{" "}
+              Order History for {user.firstName} {user.lastName}
             </Heading>
           </SimpleGrid>
           {user.orders.map((order) => (

@@ -6,7 +6,8 @@ import Home from "./pages/Home";
 // import OrderHistory from "./pages/OrderHistory";
 import ProductAddToCart from "./components/Card";
 import { StoreProvider } from "./utils/GlobalState";
-//import SignIn from "./components/signIn";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import {
 //   ApolloClient,
@@ -80,8 +81,8 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<signIn />} />
-              <Route path="/signup" element={<signUp />} />
+              <Route path="/login" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route path="/success" element={<ProductAddToCart />} />
               {/* <Route path="/orderHistory" element={<OrderHistory />} /> */}
               <Route path="/products/:id" element={<Card />} />

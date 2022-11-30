@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactNode } from "react";
-import { Cart } from "./../Cart";
-import Auth from "../../utils/auth";
+import { Cart } from "./Cart";
+import Auth from "../utils/auth";
 
 import {
   Box,
